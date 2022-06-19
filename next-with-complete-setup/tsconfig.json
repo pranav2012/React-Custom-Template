@@ -20,7 +20,8 @@
       "@elements/*": ["elements/*"],
       "@styles/*": ["styles/*"],
       "@data/*": ["util/data/*"],
-      "@validations/*": ["util/validations/*"]
+      "@validations/*": ["util/validations/*"],
+      "@redux/*": ["redux/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/404.js"],
