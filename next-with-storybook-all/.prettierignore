@@ -1,7 +1,0 @@
-/.next
-/public
-tailwind.config.js
-postcss.config.js
-next.config.js
-.lintstagedrc.js
-.lighthouseci
