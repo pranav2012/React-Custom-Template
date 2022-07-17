@@ -1,1 +1,0 @@
-# moyyn-active-sourcing
