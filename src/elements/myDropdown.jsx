@@ -3,30 +3,12 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
-export default function SelectTextFields() {
-  const [currency, setCurrency] = React.useState('EUR');
+export default function SelectTextFields({revenuetype, setActiveType}) {
+  const [currency, setCurrency] = React.useState("All");
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
+    setActiveType(event.target.value);
   };
 
   return (
@@ -47,7 +29,7 @@ export default function SelectTextFields() {
           onChange={handleChange}
           helperText="Please select your currency"
         >
-          {currencies.map((option) => (
+          {revenuetype.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
