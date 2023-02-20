@@ -1,0 +1,70 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx commitlint --edit ||
+(
+    echo '❌ 👷 ❌  Look at your commit message not as per standard conventions ❌ 👷 ❌
+            Follow these standards to commit the changes: 
+
+            1. build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+            2. ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+            3. docs: Documentation only changes
+            4. feat: A new feature
+            5. fix: A bug fix
+            6. perf: A code change that improves performance
+            7. refactor: A code change that neither fixes a bug nor adds a feature
+            8. style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+            9. test: Adding missing tests or correcting existing tests';
+    false;
+)
+
+echo '🏗️👷 Styling, testing and building your project before committing'
+
+# Check Prettier standards
+yarn format
+yarn check-format ||
+(
+    echo '🤢🤮🤢🤮 Its RAW - Your styling looks disgusting. 🤢🤮🤢🤮
+            Prettier Check Failed. Run yarn format, add changes and try commit again.';
+    false;
+)
+
+# Check ESLint Standards
+yarn lint:fix
+yarn check-lint ||
+(
+        echo '😤🏀👋😤 Eghhh get out of here! 😤🏀👋😤 
+                ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
+        false; 
+)
+
+# Check tsconfig standards
+yarn check-types ||
+(
+    echo '🤡😂❌🤡 Failed Type check. 🤡😂❌🤡
+            Are you seriously trying to write that? Make the changes required above.'
+    false;
+)
+
+echo '🤔🤔🤔🤔... Alright... Code looks good to me... Trying to build now. 🤔🤔🤔🤔'
+
+yarn build ||
+(
+    echo '❌👷🔨❌ Better call Bob... Because your build failed ❌👷🔨❌
+            Next build failed: View the errors above to see why. 
+    '
+    false;
+)
+
+# echo '👀 👀  Checking performance of the website... 👀 👀'
+
+# yarn performance ||
+# (
+#     echo '❌  Bad performance fix it before commiting! ❌ '
+#     false;
+# )
+
+git add .
+
+# If everything passes... Now we can commit
+echo '✅✅✅✅ You win this time... committing this ✅✅✅✅'
